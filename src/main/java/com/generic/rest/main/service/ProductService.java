@@ -63,7 +63,7 @@ public class ProductService {
         );
 
         for (ProductImageDTO imageDto : request.getImages()) {
-            ProductImage image = new ProductImage(imageDto.getUrl(), imageDto.getIsMain(), product);
+            ProductImage image = new ProductImage(product, imageDto.getUrl(), imageDto.getIsMain());
             product.addImage(image);
         }
 
@@ -121,7 +121,7 @@ public class ProductService {
             // Clear existing images and add new ones
             product.getImages().clear();
             for (ProductImageDTO imageDto : request.getImages()) {
-                ProductImage image = new ProductImage(imageDto.getUrl(), imageDto.getIsMain(), product);
+                ProductImage image = new ProductImage(product, imageDto.getUrl(), imageDto.getIsMain());
                 product.addImage(image);
             }
         }

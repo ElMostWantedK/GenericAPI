@@ -1,0 +1,68 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0002-create-addresses
+      author: system
+      changes:
+        - createTable:
+            tableName: addresses
+            columns:
+              - column:
+                  name: id
+                  type: INTEGER
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: INTEGER
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_address_user
+                    references: users(id)
+              - column:
+                  name: first_name
+                  type: TEXT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_name
+                  type: TEXT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: address
+                  type: TEXT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: address2
+                  type: TEXT
+              - column:
+                  name: area
+                  type: TEXT
+              - column:
+                  name: state
+                  type: TEXT
+              - column:
+                  name: country
+                  type: TEXT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: zip_code
+                  type: TEXT
+              - column:
+                  name: phone_number
+                  type: TEXT
+              - column:
+                  name: is_default
+                  type: INTEGER
+                  constraints:
+                    nullable: false
+        - createIndex:
+            indexName: idx_addresses_user
+            tableName: addresses
+            columns:
+              - column:
+                  name: user_id
