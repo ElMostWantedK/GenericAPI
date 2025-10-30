@@ -1,6 +1,7 @@
 package com.generic.rest.main.model;
 
 import com.generic.rest.main.model.enums.Role;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -40,7 +41,7 @@ public class User {
     @Column(name = "created_at", nullable = false, columnDefinition = "NUMERIC")
     private Instant createdAt = Instant.now();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Address> addresses;
 
     public Long getId() {

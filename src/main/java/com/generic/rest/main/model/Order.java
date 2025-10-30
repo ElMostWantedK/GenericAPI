@@ -104,9 +104,11 @@ public class Order {
 
     public OrderStatus getStatus() {
         if (deliveredAt != null) {
-            return OrderStatus.DELIVERED;
+            return OrderStatus.COMPLETED;
         } else if (shippedAt != null) {
-            return OrderStatus.SHIPPED;
+            return OrderStatus.IN_SHIPMENT;
+        } else if (createdAt != null) {
+            return OrderStatus.IN_PROCESS;
         } else {
             return OrderStatus.PENDING;
         }

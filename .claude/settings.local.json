@@ -4,7 +4,10 @@
       "Bash(mvn clean compile:*)",
       "Bash(mvn test:*)",
       "Bash(mvn clean test:*)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(timeout 10 mvn spring-boot:run:*)",
+      "Bash(mvn clean package:*)",
+      "Read(//c/Users/CaximbaPC/Projects/**)"
     ],
     "deny": [],
     "ask": []

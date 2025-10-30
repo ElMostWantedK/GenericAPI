@@ -57,23 +57,23 @@ public class CollectionController {
         return ResponseEntity.noContent().build();
     }
 
-    // @PostMapping("/{collectionId}/products/{productId}")
-    // public ResponseEntity<Void> addProductToCollection(
-    //         @PathVariable Long collectionId,
-    //         @PathVariable Long productId
-    // ) {
-    //     collectionService.addProductToCollection(collectionId, productId);
-    //     return ResponseEntity.ok().build();
-    // }
+    @PostMapping("/{collectionId}/products/{productId}")
+    public ResponseEntity<Void> addProductToCollection(
+            @PathVariable Long collectionId,
+            @PathVariable Long productId
+    ) {
+        collectionService.addProductToCollection(collectionId, productId);
+        return ResponseEntity.ok().build();
+    }
 
-    // @DeleteMapping("/{collectionId}/products/{productId}")
-    // public ResponseEntity<Void> removeProductFromCollection(
-    //         @PathVariable Long collectionId,
-    //         @PathVariable Long productId
-    // ) {
-    //     collectionService.removeProductFromCollection(collectionId, productId);
-    //     return ResponseEntity.noContent().build();
-    // }
+    @DeleteMapping("/{collectionId}/products/{productId}")
+    public ResponseEntity<Void> removeProductFromCollection(
+            @PathVariable Long collectionId,
+            @PathVariable Long productId
+    ) {
+        collectionService.removeProductFromCollection(collectionId, productId);
+        return ResponseEntity.noContent().build();
+    }
 
     @GetMapping("/{collectionId}/products")
     public ResponseEntity<List<ProductDTO>> getCollectionProducts(@PathVariable Long collectionId) {
@@ -81,23 +81,23 @@ public class CollectionController {
         return ResponseEntity.ok(response);
     }
 
-    // @PostMapping("/{parentId}/subcollections/{subcollectionId}")
-    // public ResponseEntity<CollectionDTO> addSubcollection(
-    //         @PathVariable Long parentId,
-    //         @PathVariable Long subcollectionId
-    // ) {
-    //     CollectionDTO response = collectionService.addSubcollection(parentId, subcollectionId);
-    //     return ResponseEntity.ok(response);
-    // }
+    @PostMapping("/{parentId}/subcollections/{subcollectionId}")
+    public ResponseEntity<CollectionDTO> addSubcollection(
+            @PathVariable Long parentId,
+            @PathVariable Long subcollectionId
+    ) {
+        CollectionDTO response = collectionService.addSubcollection(parentId, subcollectionId);
+        return ResponseEntity.ok(response);
+    }
 
-    // @DeleteMapping("/{parentId}/subcollections/{subcollectionId}")
-    // public ResponseEntity<Void> removeSubcollection(
-    //         @PathVariable Long parentId,
-    //         @PathVariable Long subcollectionId
-    // ) {
-    //     collectionService.removeSubcollection(parentId, subcollectionId);
-    //     return ResponseEntity.noContent().build();
-    // }
+    @DeleteMapping("/{parentId}/subcollections/{subcollectionId}")
+    public ResponseEntity<Void> removeSubcollection(
+            @PathVariable Long parentId,
+            @PathVariable Long subcollectionId
+    ) {
+        collectionService.removeSubcollection(parentId, subcollectionId);
+        return ResponseEntity.noContent().build();
+    }
 
     @GetMapping("/{parentId}/subcollections")
     public ResponseEntity<List<CollectionDTO>> getSubcollections(@PathVariable Long parentId) {

@@ -90,7 +90,8 @@ public class AddressService {
         address.setAddress2(req.getAddress2());
         address.setArea(req.getArea());
         address.setState(req.getState());
-        address.setCountry(req.getCountry());
+        // Set default country if not provided (to satisfy NOT NULL constraint)
+        address.setCountry(StringUtils.hasText(req.getCountry()) ? req.getCountry() : "Unknown");
         address.setZipCode(req.getZipCode());
         address.setPhoneNumber(req.getPhoneNumber());
         address.setDefault(req.isDefault());
