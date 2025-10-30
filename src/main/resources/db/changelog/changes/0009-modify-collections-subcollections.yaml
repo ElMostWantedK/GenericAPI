@@ -1,0 +1,57 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0009-modify-collections-subcollections
+      author: system
+      changes:
+        # SQLite does not support DROP CONSTRAINT or MODIFY COLUMN, so we need to recreate the table
+        - sql:
+            dbms: sqlite
+            sql: |
+              -- Create temporary table with new structure
+              CREATE TABLE collections_new (
+                id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                name TEXT NOT NULL,
+                parent_collection_id INTEGER,
+                FOREIGN KEY (parent_collection_id) REFERENCES collections_new(id)
+              );
+
+              -- Copy existing data (parent_collection_id will be NULL for existing records)
+              INSERT INTO collections_new (id, name, parent_collection_id)
+              SELECT id, name, NULL FROM collections;
+
+              -- Drop old table
+              DROP TABLE collections;
+
+              -- Rename new table
+              ALTER TABLE collections_new RENAME TO collections;
+
+        - createIndex:
+            indexName: idx_collections_parent
+            tableName: collections
+            columns:
+              - column:
+                  name: parent_collection_id
+      rollback:
+        - sql:
+            dbms: sqlite
+            sql: |
+              -- Rollback: recreate table with old structure
+              CREATE TABLE collections_new (
+                id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                name TEXT NOT NULL,
+                subcollection_id INTEGER,
+                FOREIGN KEY (subcollection_id) REFERENCES collections_new(id)
+              );
+
+              INSERT INTO collections_new (id, name, subcollection_id)
+              SELECT id, name, NULL FROM collections;
+
+              DROP TABLE collections;
+
+              ALTER TABLE collections_new RENAME TO collections;
+        - createIndex:
+            indexName: idx_collections_subcollection
+            tableName: collections
+            columns:
+              - column:
+                  name: subcollection_id
