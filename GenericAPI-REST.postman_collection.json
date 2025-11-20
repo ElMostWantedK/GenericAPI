@@ -1,0 +1,909 @@
+{
+	"info": {
+		"_postman_id": "generic-api-rest-collection",
+		"name": "GenericAPI-REST",
+		"description": "Spring Boot REST API with JWT authentication, Google OAuth, and SQLite database",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{jwt_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "jwt_token",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Signup",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Save JWT token to collection variable",
+									"if (pm.response.code === 200) {",
+									"    const response = pm.response.json();",
+									"    if (response.accessToken) {",
+									"        pm.collectionVariables.set(\"jwt_token\", response.accessToken);",
+									"        console.log(\"JWT token saved successfully\");",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"email\": \"john.doe@example.com\",\n  \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/signup",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Save JWT token to collection variable",
+									"if (pm.response.code === 200) {",
+									"    const response = pm.response.json();",
+									"    if (response.accessToken) {",
+									"        pm.collectionVariables.set(\"jwt_token\", response.accessToken);",
+									"        console.log(\"JWT token saved successfully\");",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"john.doe@example.com\",\n  \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Role",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/auth/role",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"role"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Account Menu",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/auth/account-menu",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"account-menu"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Google Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Save JWT token to collection variable",
+									"if (pm.response.code === 200) {",
+									"    const response = pm.response.json();",
+									"    if (response.accessToken) {",
+									"        pm.collectionVariables.set(\"jwt_token\", response.accessToken);",
+									"        console.log(\"JWT token saved successfully\");",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"googleToken\": \"your-google-oauth-token-here\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/google-login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"google-login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "List Products",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/product/list?page=0&size=20",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"product",
+								"list"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Shirt",
+									"disabled": true
+								},
+								{
+									"key": "type",
+									"value": "SHIRT",
+									"disabled": true,
+									"description": "Values: SHIRT, PANTS, DRESS, JACKET, SHOES, ACCESSORIES, TEE, OTHER"
+								},
+								{
+									"key": "minPrice",
+									"value": "10.0",
+									"disabled": true
+								},
+								{
+									"key": "maxPrice",
+									"value": "100.0",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "20"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Show Product",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/product/show/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"product",
+								"show",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Product",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Classic T-Shirt\",\n  \"description\": \"Comfortable cotton t-shirt\",\n  \"note\": \"Best seller\",\n  \"fabricDetails\": \"100% Cotton\",\n  \"type\": \"TEE\",\n  \"gender\": \"BOTH\",\n  \"price\": 29.99,\n  \"sizes\": [\"S\", \"M\", \"L\", \"XL\"],\n  \"images\": [\n    {\n      \"url\": \"https://example.com/images/tshirt-front.jpg\",\n      \"altText\": \"Front view\"\n    },\n    {\n      \"url\": \"https://example.com/images/tshirt-back.jpg\",\n      \"altText\": \"Back view\"\n    }\n  ],\n  \"collectionIds\": []\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/product/create",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"product",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Product",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Classic T-Shirt Updated\",\n  \"description\": \"Comfortable premium cotton t-shirt\",\n  \"note\": \"Best seller - New edition\",\n  \"fabricDetails\": \"100% Premium Cotton\",\n  \"type\": \"TEE\",\n  \"gender\": \"BOTH\",\n  \"price\": 34.99,\n  \"sizes\": [\"XS\", \"S\", \"M\", \"L\", \"XL\", \"XXL\"],\n  \"images\": [\n    {\n      \"url\": \"https://example.com/images/tshirt-front-new.jpg\",\n      \"altText\": \"Front view - Updated\"\n    }\n  ],\n  \"collectionIds\": []\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/product/edit/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"product",
+								"edit",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Product",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/product/delete/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"product",
+								"delete",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Collections",
+			"item": [
+				{
+					"name": "List Collections",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/collection/list?onlyRoot=false",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"collection",
+								"list"
+							],
+							"query": [
+								{
+									"key": "onlyRoot",
+									"value": "false",
+									"description": "Set to true to only get root collections"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Show Collection",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/collection/show/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"collection",
+								"show",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Collection",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Summer Collection\",\n  \"productIds\": [],\n  \"parentCollectionId\": null\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/collection/create",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"collection",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Collection",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Summer Collection 2025\",\n  \"productIds\": [],\n  \"parentCollectionId\": null\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/collection/edit/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"collection",
+								"edit",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Collection",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/collection/delete/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"collection",
+								"delete",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Product to Collection",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/collection/1/products/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"collection",
+								"1",
+								"products",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Product from Collection",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/collection/1/products/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"collection",
+								"1",
+								"products",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Collection Products",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/collection/1/products",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"collection",
+								"1",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Subcollection",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/collection/1/subcollections/2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"collection",
+								"1",
+								"subcollections",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Subcollection",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/collection/1/subcollections/2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"collection",
+								"1",
+								"subcollections",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Subcollections",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/collection/1/subcollections",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"collection",
+								"1",
+								"subcollections"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Orders",
+			"item": [
+				{
+					"name": "Create Order",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"address\": {\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"address\": \"123 Main Street\",\n    \"address2\": \"Apt 4B\",\n    \"area\": \"Downtown\",\n    \"state\": \"California\",\n    \"country\": \"USA\",\n    \"zipCode\": \"90210\",\n    \"phoneNumber\": \"+1-555-0123\",\n    \"isDefault\": true\n  },\n  \"products\": [\n    {\n      \"productId\": 1,\n      \"productName\": \"Classic T-Shirt\",\n      \"quantity\": 2,\n      \"priceAtPurchase\": 29.99\n    },\n    {\n      \"productId\": 2,\n      \"productName\": \"Blue Jeans\",\n      \"quantity\": 1,\n      \"priceAtPurchase\": 79.99\n    }\n  ],\n  \"status\": \"PENDING\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/order/create",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"order",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Orders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/order/list?page=0&size=20",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"order",
+								"list"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "20"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Orders by User ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/order/list/1?page=0&size=20",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"order",
+								"list",
+								"1"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "20"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Show Order",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/order/show/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"order",
+								"show",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Order",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"address\": {\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"address\": \"123 Main Street\",\n    \"address2\": \"Apt 4B\",\n    \"area\": \"Downtown\",\n    \"state\": \"California\",\n    \"country\": \"USA\",\n    \"zipCode\": \"90210\",\n    \"phoneNumber\": \"+1-555-0123\",\n    \"isDefault\": true\n  },\n  \"products\": [\n    {\n      \"productId\": 1,\n      \"productName\": \"Classic T-Shirt\",\n      \"quantity\": 3,\n      \"priceAtPurchase\": 29.99\n    }\n  ],\n  \"status\": \"IN_PROCESS\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/order/edit/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"order",
+								"edit",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Order",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/order/delete/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"order",
+								"delete",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Address",
+			"item": [
+				{
+					"name": "List Addresses",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/account/address/list",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"account",
+								"address",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Address",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"address\": \"123 Main Street\",\n  \"address2\": \"Apt 4B\",\n  \"area\": \"Downtown\",\n  \"state\": \"California\",\n  \"country\": \"USA\",\n  \"zipCode\": \"90210\",\n  \"phoneNumber\": \"+1-555-0123\",\n  \"isDefault\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/account/address/create",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"account",
+								"address",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Address",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Smith\",\n  \"address\": \"456 Oak Avenue\",\n  \"address2\": \"Suite 200\",\n  \"area\": \"Uptown\",\n  \"state\": \"California\",\n  \"country\": \"USA\",\n  \"zipCode\": \"90211\",\n  \"phoneNumber\": \"+1-555-0124\",\n  \"isDefault\": false\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/account/address/edit/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"account",
+								"address",
+								"edit",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Address",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/account/address/delete/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"account",
+								"address",
+								"delete",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

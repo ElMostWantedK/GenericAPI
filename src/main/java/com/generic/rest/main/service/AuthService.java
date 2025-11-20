@@ -98,7 +98,7 @@ public class AuthService {
 
     private List<String> getMenuItems(User user) {
         if (user.getRole() == Role.ADMIN) {
-            return Arrays.asList("ORDER", "ADDRESS", "PRODUCTS", "BILLING");
+            return Arrays.asList("ORDER", "ADDRESS", "PRODUCTS", "BILLING", "CONFIGURATION");
         } else {
             return Arrays.asList("ORDER", "ADDRESS");
         }
