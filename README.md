@@ -370,14 +370,6 @@ timeout 10 mvn spring-boot:run
 - Fetch required relationships in queries
 - Use DTOs to avoid lazy loading in controllers
 
-## Contributing
-
-1. Create a feature branch from `master`
-2. Follow the existing code style and architecture
-3. Write tests for new functionality
-4. Ensure all tests pass: `mvn test`
-5. Create a pull request with a clear description
-
 ---
 
 **Last Updated**: 2025-11-20
