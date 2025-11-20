@@ -378,14 +378,6 @@ timeout 10 mvn spring-boot:run
 4. Ensure all tests pass: `mvn test`
 5. Create a pull request with a clear description
 
-## License
-
-[Add your license information here]
-
-## Contact
-
-[Add contact information or links here]
-
 ---
 
 **Last Updated**: 2025-11-20
