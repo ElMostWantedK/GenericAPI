@@ -15,7 +15,6 @@ A modern REST API built with Spring Boot 3.5.6 featuring JWT authentication, Goo
 - [Database Migrations](#database-migrations)
 - [Testing](#testing)
 - [Security](#security)
-- [Contributing](#contributing)
 
 ## Features
 
