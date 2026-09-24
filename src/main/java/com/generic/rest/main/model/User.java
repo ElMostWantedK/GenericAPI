@@ -38,7 +38,7 @@ public class User {
     @Column(name = "role", nullable = false)
     private Role role = Role.USER;
 
-    @Column(name = "created_at", nullable = false, columnDefinition = "NUMERIC")
+    @Column(name = "created_at", nullable = false)
     private Instant createdAt = Instant.now();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)

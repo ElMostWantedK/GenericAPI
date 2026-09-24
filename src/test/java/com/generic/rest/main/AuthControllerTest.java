@@ -308,18 +308,19 @@ class AuthControllerTest {
                 .header("Authorization", "Bearer " + authToken))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.items").isArray())
-                .andExpect(jsonPath("$.items.length()").value(4))
+                .andExpect(jsonPath("$.items.length()").value(5))
                 .andExpect(jsonPath("$.items[0]").value("ORDER"))
                 .andExpect(jsonPath("$.items[1]").value("ADDRESS"))
                 .andExpect(jsonPath("$.items[2]").value("PRODUCTS"))
                 .andExpect(jsonPath("$.items[3]").value("BILLING"))
+                .andExpect(jsonPath("$.items[4]").value("CONFIGURATION"))
                 .andReturn();
 
         String responseJson = result.getResponse().getContentAsString();
         AuthResponse menuResponse = objectMapper.readValue(responseJson, AuthResponse.class);
 
-        assertThat(menuResponse.getItems()).hasSize(4);
-        assertThat(menuResponse.getItems()).containsExactly("ORDER", "ADDRESS", "PRODUCTS", "BILLING");
+        assertThat(menuResponse.getItems()).hasSize(5);
+        assertThat(menuResponse.getItems()).containsExactly("ORDER", "ADDRESS", "PRODUCTS", "BILLING", "CONFIGURATION");
     }
 
     @Test

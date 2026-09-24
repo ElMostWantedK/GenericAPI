@@ -21,7 +21,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Optional<Product> findByIdActive(@Param("id") Long id);
 
     @Query("SELECT p FROM Product p WHERE p.deletedAt IS NULL " +
-           "AND (:name IS NULL OR LOWER(p.name) LIKE LOWER(CONCAT('%', :name, '%'))) " +
+           // Explicit cast: PostgreSQL cannot infer the type of a null parameter (defaults to bytea)
+           "AND (CAST(:name AS String) IS NULL OR LOWER(p.name) LIKE LOWER(CONCAT('%', CAST(:name AS String), '%'))) " +
            "AND (:type IS NULL OR p.type = :type) " +
            "AND (:minPrice IS NULL OR p.price >= :minPrice) " +
            "AND (:maxPrice IS NULL OR p.price <= :maxPrice)")

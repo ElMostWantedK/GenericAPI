@@ -4,14 +4,14 @@ This file provides guidance to Claude Code when working with this Spring Boot RE
 
 ## Project Overview
 
-**GenericAPI-REST** is a Spring Boot 3.5.6 REST API with JWT authentication, Google OAuth integration, and SQLite database.
+**GenericAPI-REST** is a Spring Boot 3.5.6 REST API with JWT authentication, Google OAuth integration, and PostgreSQL database.
 
 ## Technology Stack
 
 - **Language**: Java 21
 - **Framework**: Spring Boot 3.5.6
 - **Build Tool**: Maven
-- **Database**: SQLite (local development)
+- **Database**: PostgreSQL (tests use Testcontainers, requires Docker)
 - **ORM**: Spring Data JPA with Hibernate
 - **Database Migrations**: Liquibase
 - **Authentication**: JWT (JSON Web Tokens) + Google OAuth
@@ -33,8 +33,7 @@ src/main/java/com/generic/rest/main/
 
 src/main/resources/
 ├── db/
-│   ├── changelog/   # Liquibase migration files
-│   └── local.db     # SQLite database file
+│   └── changelog/   # Liquibase migration files
 └── application.properties
 ```
 
@@ -71,14 +70,14 @@ java -jar target/main-0.0.1-SNAPSHOT.jar
 
 ## Database & Migrations
 
-- **Database**: SQLite stored at `src/main/resources/db/local.db`
+- **Database**: PostgreSQL at `jdbc:postgresql://localhost:5432/genericapi` by default (override with `DB_URL`, `DB_USERNAME`, `DB_PASSWORD`)
 - **Migrations**: Managed by Liquibase
-- **Changelog**: `src/main/resources/db/changelog/db.changelog-master.yaml`
+- **Changelog**: `src/main/resources/db/changelog/db.changelog-postgresql.yaml` (changesets in `db/changelog/postgresql/`)
 
 ### Important Notes:
 - **Never modify `spring.jpa.hibernate.ddl-auto`** - It must remain `none`
 - All schema changes MUST be done via Liquibase migrations
-- SQLite uses single connection pool (`maximum-pool-size=1`)
+- Tests spin up a throwaway PostgreSQL container via Testcontainers (`jdbc:tc:` URL), so Docker must be running
 
 ### Creating Database Migrations
 
@@ -267,10 +266,10 @@ private EntityDTO mapToDTO(Entity entity) {
 
 ## Troubleshooting
 
-### SQLite Connection Issues
-- Check `local.db` file exists
-- Verify single connection pool setting
-- Check file permissions
+### PostgreSQL Connection Issues
+- Check the server is running (`pg_isready -h localhost -p 5432`)
+- Verify the `genericapi` database exists and credentials match `DB_USERNAME` / `DB_PASSWORD`
+- For tests, make sure Docker is running
 
 ### Liquibase Errors
 - Review changelog syntax

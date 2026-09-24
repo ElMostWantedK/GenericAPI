@@ -51,7 +51,7 @@ public class Product {
     @ManyToMany(mappedBy = "products")
     private List<Collection> collections = new ArrayList<>();
 
-    @Column(columnDefinition = "NUMERIC")
+    @Column
     private LocalDateTime deletedAt;
 
     public Product() {

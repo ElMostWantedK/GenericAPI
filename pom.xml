@@ -29,6 +29,8 @@
 	<properties>
 		<java.version>21</java.version>
 		<jjwt.version>0.11.5</jjwt.version>
+		<!-- 1.21.4+ required for Docker Engine 29 (minimum API version change) -->
+		<testcontainers.version>1.21.4</testcontainers.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -66,17 +68,11 @@
 			<artifactId>liquibase-core</artifactId>
 		</dependency>
 
-		<!-- SQLite JDBC driver -->
+		<!-- PostgreSQL JDBC driver -->
 		<dependency>
-			<groupId>org.xerial</groupId>
-			<artifactId>sqlite-jdbc</artifactId>
-			<version>3.46.0.0</version>
-		</dependency>
-
-		<!-- Hibernate community dialects (SQLite) -->
-		<dependency>
-			<groupId>org.hibernate.orm</groupId>
-			<artifactId>hibernate-community-dialects</artifactId>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 
 		<!-- JWT -->
@@ -117,6 +113,13 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- Testcontainers (throwaway PostgreSQL for tests) -->
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>postgresql</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -130,9 +133,9 @@
 				<artifactId>liquibase-maven-plugin</artifactId>
 				<dependencies>
 					<dependency>
-						<groupId>org.xerial</groupId>
-						<artifactId>sqlite-jdbc</artifactId>
-						<version>3.46.0.0</version>
+						<groupId>org.postgresql</groupId>
+						<artifactId>postgresql</artifactId>
+						<version>${postgresql.version}</version>
 					</dependency>
 				</dependencies>
 			</plugin>

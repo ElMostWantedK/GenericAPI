@@ -1,0 +1,16 @@
+target/
+.git/
+.gitignore
+.gitattributes
+.claude/
+.vscode/
+.idea/
+.mvn/
+mvnw
+mvnw.cmd
+wrapper/
+*.md
+*.postman_collection.json
+Dockerfile
+docker-compose.yml
+src/main/resources/db/local.db

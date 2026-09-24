@@ -1,6 +1,6 @@
 # GenericAPI-REST
 
-A modern REST API built with Spring Boot 3.5.6 featuring JWT authentication, Google OAuth integration, and SQLite database.
+A modern REST API built with Spring Boot 3.5.6 featuring JWT authentication, Google OAuth integration, and PostgreSQL database.
 
 ## Table of Contents
 
@@ -26,14 +26,14 @@ A modern REST API built with Spring Boot 3.5.6 featuring JWT authentication, Goo
 - **Spring Security**: Comprehensive security configuration
 - **Input Validation**: Jakarta Bean Validation for data integrity
 - **Layered Architecture**: Clear separation of concerns (Controller, Service, Repository)
-- **SQLite Database**: Lightweight database for local development
+- **PostgreSQL Database**: Relational database, with Testcontainers for tests
 
 ## Technology Stack
 
 - **Java**: 21
 - **Spring Boot**: 3.5.6
 - **Build Tool**: Maven
-- **Database**: SQLite
+- **Database**: PostgreSQL
 - **ORM**: Spring Data JPA with Hibernate
 - **Migrations**: Liquibase
 - **Authentication**: JWT (jjwt 0.11.5) + Google OAuth
@@ -81,9 +81,10 @@ The main configuration file is located at `src/main/resources/application.proper
 server.port=8080
 
 # Database Configuration
-spring.datasource.url=jdbc:sqlite:src/main/resources/db/local.db
-spring.datasource.driver-class-name=org.sqlite.JDBC
-spring.jpa.database-platform=org.hibernate.community.dialect.SQLiteDialect
+spring.datasource.url=${DB_URL:jdbc:postgresql://localhost:5432/genericapi}
+spring.datasource.username=${DB_USERNAME:postgres}
+spring.datasource.password=${DB_PASSWORD:postgres}
+spring.datasource.driver-class-name=org.postgresql.Driver
 spring.jpa.hibernate.ddl-auto=none
 
 # JWT Configuration
@@ -95,7 +96,7 @@ app.security.oauth.google.client-id=your-google-client-id
 app.security.oauth.google.client-secret=your-google-client-secret
 
 # Liquibase Configuration
-spring.liquibase.change-log=classpath:db/changelog/db.changelog-master.yaml
+spring.liquibase.change-log=classpath:db/changelog/db.changelog-postgresql.yaml
 ```
 
 ### Environment-Specific Configuration
@@ -104,7 +105,7 @@ spring.liquibase.change-log=classpath:db/changelog/db.changelog-master.yaml
 1. Update JWT secret to a strong random value
 2. Configure Google OAuth credentials
 3. Update CORS settings to restrict allowed origins
-4. Consider using PostgreSQL or MySQL instead of SQLite
+4. Set `DB_URL`, `DB_USERNAME` and `DB_PASSWORD` for the production PostgreSQL instance
 
 ## Running the Application
 
@@ -119,6 +120,20 @@ mvn spring-boot:run
 ```bash
 java -jar target/main-0.0.1-SNAPSHOT.jar
 ```
+
+### Using Docker
+
+Only Docker is required (no local Java, Maven or PostgreSQL). This builds the API image and starts it together with a PostgreSQL container:
+
+```bash
+docker compose up -d --build
+```
+
+- API: `http://localhost:8080`
+- PostgreSQL: `localhost:5433` (database `genericapi`, data persisted in the `pgdata` volume)
+- Credentials can be overridden with `DB_USERNAME` / `DB_PASSWORD` (environment or a `.env` file)
+
+Stop with `docker compose down` (add `-v` to also wipe the database).
 
 The application will start on `http://localhost:8080` by default.
 
@@ -210,9 +225,9 @@ src/main/java/com/generic/rest/main/
 
 src/main/resources/
 ├── db/
-│   ├── changelog/       # Liquibase migrations
-│   │   └── db.changelog-master.yaml
-│   └── local.db         # SQLite database
+│   └── changelog/       # Liquibase migrations
+│       ├── db.changelog-postgresql.yaml
+│       └── postgresql/
 └── application.properties
 ```
 
@@ -336,11 +351,12 @@ timeout 10 mvn spring-boot:run
 
 ## Troubleshooting
 
-### SQLite Connection Issues
+### PostgreSQL Connection Issues
 
-- Verify `src/main/resources/db/local.db` exists
-- Check file permissions
-- Ensure single connection pool setting is configured
+- Verify the server is running (`pg_isready -h localhost -p 5432`)
+- Ensure the `genericapi` database exists: `createdb -U postgres genericapi`
+- Check `DB_USERNAME` / `DB_PASSWORD`
+- Tests require Docker to be running (Testcontainers)
 
 ### Liquibase Errors
 

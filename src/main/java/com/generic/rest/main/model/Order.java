@@ -14,13 +14,13 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "created_at", nullable = false, columnDefinition = "NUMERIC")
+    @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
-    @Column(name = "shipped_at", columnDefinition = "NUMERIC")
+    @Column(name = "shipped_at")
     private LocalDateTime shippedAt;
 
-    @Column(name = "delivered_at", columnDefinition = "NUMERIC")
+    @Column(name = "delivered_at")
     private LocalDateTime deliveredAt;
 
     @ManyToOne
