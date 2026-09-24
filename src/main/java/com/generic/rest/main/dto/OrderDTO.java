@@ -1,5 +1,7 @@
 package com.generic.rest.main.dto;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import com.generic.rest.main.model.enums.OrderStatus;
 
 import java.time.LocalDateTime;
@@ -16,6 +18,8 @@ public class OrderDTO {
     private Float total;
     private OrderStatus status;
 
+    // Deserialize via setters: Jackson 3 would otherwise pick the all-args constructor
+    @JsonCreator
     public OrderDTO() {
     }
 

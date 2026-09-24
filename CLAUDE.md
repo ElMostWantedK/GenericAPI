@@ -4,12 +4,12 @@ This file provides guidance to Claude Code when working with this Spring Boot RE
 
 ## Project Overview
 
-**GenericAPI-REST** is a Spring Boot 3.5.6 REST API with JWT authentication, Google OAuth integration, and PostgreSQL database.
+**GenericAPI-REST** is a Spring Boot 4.1.1 REST API with JWT authentication, Google OAuth integration, and PostgreSQL database.
 
 ## Technology Stack
 
-- **Language**: Java 21
-- **Framework**: Spring Boot 3.5.6
+- **Language**: Java 25
+- **Framework**: Spring Boot 4.1.1
 - **Build Tool**: Maven
 - **Database**: PostgreSQL (tests use Testcontainers, requires Docker)
 - **ORM**: Spring Data JPA with Hibernate

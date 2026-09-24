@@ -1,5 +1,7 @@
 package com.generic.rest.main.dto;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import com.generic.rest.main.model.enums.Gender;
 import com.generic.rest.main.model.enums.ProductType;
 import com.generic.rest.main.model.enums.Size;
@@ -20,6 +22,8 @@ public class ProductDTO {
     private List<ProductImageDTO> images;
     private List<Long> collectionIds;
 
+    // Deserialize via setters: Jackson 3 would otherwise pick the all-args constructor
+    @JsonCreator
     public ProductDTO() {
     }
 

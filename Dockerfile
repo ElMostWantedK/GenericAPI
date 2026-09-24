@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # ---------- Build stage ----------
-FROM maven:3.9-eclipse-temurin-21 AS build
+FROM maven:3.9-eclipse-temurin-25 AS build
 WORKDIR /app
 
 # Resolve dependencies first so this layer is cached until pom.xml changes
@@ -14,7 +14,7 @@ RUN --mount=type=cache,target=/root/.m2 mvn -B -q package -DskipTests \
     && cp target/*.jar app.jar
 
 # ---------- Runtime stage ----------
-FROM eclipse-temurin:21-jre-alpine
+FROM eclipse-temurin:25-jre-alpine
 WORKDIR /app
 
 RUN addgroup -S spring && adduser -S spring -G spring

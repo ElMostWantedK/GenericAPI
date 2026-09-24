@@ -2,19 +2,18 @@ package com.generic.rest.main.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
-import java.security.Key;
+import javax.crypto.SecretKey;
 import java.util.Date;
 
 @Service
 public class JwtService {
 
     private final JwtProperties jwtProperties;
-    private final Key signingKey;
+    private final SecretKey signingKey;
 
     public JwtService(JwtProperties jwtProperties) {
         this.jwtProperties = jwtProperties;
@@ -27,19 +26,19 @@ public class JwtService {
         Date expiryDate = new Date(now.getTime() + expirationMillis);
 
         return Jwts.builder()
-                .setSubject(email)
-                .setIssuedAt(now)
-                .setExpiration(expiryDate)
-                .signWith(signingKey, SignatureAlgorithm.HS256)
+                .subject(email)
+                .issuedAt(now)
+                .expiration(expiryDate)
+                .signWith(signingKey, Jwts.SIG.HS256)
                 .compact();
     }
 
     public String extractSubject(String token) {
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(signingKey)
+        Claims claims = Jwts.parser()
+                .verifyWith(signingKey)
                 .build()
-                .parseClaimsJws(token)
-                .getBody();
+                .parseSignedClaims(token)
+                .getPayload();
         return claims.getSubject();
     }
 }

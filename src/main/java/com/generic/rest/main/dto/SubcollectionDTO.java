@@ -1,10 +1,14 @@
 package com.generic.rest.main.dto;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 public class SubcollectionDTO {
 
     private Long id;
     private String name;
 
+    // Deserialize via setters: Jackson 3 would otherwise pick the all-args constructor
+    @JsonCreator
     public SubcollectionDTO() {
     }
 

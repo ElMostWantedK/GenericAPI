@@ -1,5 +1,7 @@
 package com.generic.rest.main.dto;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import java.util.List;
 
 public class CollectionDTO {
@@ -10,6 +12,8 @@ public class CollectionDTO {
     private List<SubcollectionDTO> subcollections;
     private Long parentCollectionId;
 
+    // Deserialize via setters: Jackson 3 would otherwise pick the all-args constructor
+    @JsonCreator
     public CollectionDTO() {
     }
 

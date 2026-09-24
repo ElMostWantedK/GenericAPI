@@ -1,5 +1,7 @@
 package com.generic.rest.main.dto;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -11,6 +13,8 @@ public class ProductImageDTO {
     @NotNull(message = "isMain flag is required")
     private Boolean isMain;
 
+    // Deserialize via setters: Jackson 3 would otherwise pick the all-args constructor
+    @JsonCreator
     public ProductImageDTO() {
     }
 

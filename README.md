@@ -1,6 +1,8 @@
 # GenericAPI-REST
 
-A modern REST API built with Spring Boot 3.5.6 featuring JWT authentication, Google OAuth integration, and PostgreSQL database.
+A modern REST API built with Spring Boot 4.1.1 featuring JWT authentication, Google OAuth integration, and PostgreSQL database.
+
+> 🏪 **Using this API as the base for a store?** Follow [STORES.md](STORES.md): how to create a store, bring changes from the generic API into active stores, and freeze finished ones.
 
 ## Table of Contents
 
@@ -29,20 +31,20 @@ A modern REST API built with Spring Boot 3.5.6 featuring JWT authentication, Goo
 
 ## Technology Stack
 
-- **Java**: 21
-- **Spring Boot**: 3.5.6
+- **Java**: 25
+- **Spring Boot**: 4.1.1
 - **Build Tool**: Maven
 - **Database**: PostgreSQL
 - **ORM**: Spring Data JPA with Hibernate
 - **Migrations**: Liquibase
-- **Authentication**: JWT (jjwt 0.11.5) + Google OAuth
+- **Authentication**: JWT (jjwt 0.13.0) + Google OAuth
 - **Security**: Spring Security
 - **Validation**: Jakarta Validation API
 - **Testing**: Spring Boot Test, Spring Security Test
 
 ## Prerequisites
 
-- **Java Development Kit (JDK)**: 21 or higher
+- **Java Development Kit (JDK)**: 25 or higher
 - **Maven**: 3.6+ (or use the included Maven wrapper)
 - **IDE**: IntelliJ IDEA, Eclipse, or VS Code (optional)
 

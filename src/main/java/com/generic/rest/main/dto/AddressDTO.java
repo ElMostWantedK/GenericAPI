@@ -1,5 +1,7 @@
 package com.generic.rest.main.dto;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 public class AddressDTO {
 
     private Long id;
@@ -14,6 +16,8 @@ public class AddressDTO {
     private String phoneNumber;
     private boolean isDefault;
 
+    // Deserialize via setters: Jackson 3 would otherwise pick the all-args constructor
+    @JsonCreator
     public AddressDTO() {
     }
 

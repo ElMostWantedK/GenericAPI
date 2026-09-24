@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.5.6</version>
+		<version>4.1.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.generic.rest</groupId>
@@ -27,21 +27,15 @@
 		<url/>
 	</scm>
 	<properties>
-		<java.version>21</java.version>
-		<jjwt.version>0.11.5</jjwt.version>
-		<!-- 1.21.4+ required for Docker Engine 29 (minimum API version change) -->
-		<testcontainers.version>1.21.4</testcontainers.version>
+		<java.version>25</java.version>
+		<jjwt.version>0.13.0</jjwt.version>
+		<google-api-client.version>2.9.1</google-api-client.version>
 	</properties>
 	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
-		</dependency>
-
 		<!-- Web -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
+			<artifactId>spring-boot-starter-webmvc</artifactId>
 		</dependency>
 
 		<!-- Security -->
@@ -64,8 +58,8 @@
 
 		<!-- Liquibase -->
 		<dependency>
-			<groupId>org.liquibase</groupId>
-			<artifactId>liquibase-core</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-liquibase</artifactId>
 		</dependency>
 
 		<!-- PostgreSQL JDBC driver -->
@@ -98,26 +92,25 @@
 		<dependency>
 			<groupId>com.google.api-client</groupId>
 			<artifactId>google-api-client</artifactId>
-			<version>2.2.0</version>
+			<version>${google-api-client.version}</version>
 		</dependency>
 
+		<!-- Tests (Spring Boot 4 splits test support per module) -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
+			<artifactId>spring-boot-starter-webmvc-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-
-		<!-- Security test utilities -->
 		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-test</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 
 		<!-- Testcontainers (throwaway PostgreSQL for tests) -->
 		<dependency>
 			<groupId>org.testcontainers</groupId>
-			<artifactId>postgresql</artifactId>
+			<artifactId>testcontainers-postgresql</artifactId>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
