@@ -278,7 +278,7 @@ public class CollectionService {
 
     private CollectionDTO mapToResponse(Collection collection) {
         List<Long> productIds = collection.getProducts().stream()
-                .map(Product::getId)
+                .map(product -> product.getId())
                 .collect(Collectors.toList());
 
         List<SubcollectionDTO> subcollections = collection.getSubcollections().stream()

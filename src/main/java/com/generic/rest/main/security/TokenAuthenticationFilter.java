@@ -11,10 +11,9 @@ import java.util.Optional;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
-import java.util.Collections;
 
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
@@ -37,9 +36,8 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
                 Optional<User> userOpt = userRepository.findByEmail(email);
                 if (userOpt.isPresent()) {
                     User user = userOpt.get();
-                    SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + user.getRole().name());
                     Authentication authentication = new UsernamePasswordAuthenticationToken(
-                        user, null, Collections.singletonList(authority));
+                        user, null, AuthorityUtils.createAuthorityList("ROLE_" + user.getRole().name()));
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
             } catch (Exception ignored) {

@@ -146,8 +146,7 @@ public class Product {
             return new ArrayList<>();
         }
         return Arrays.stream(sizes.split(","))
-                .map(String::trim)
-                .map(Size::valueOf)
+                .map(value -> Size.valueOf(value.trim()))
                 .collect(Collectors.toList());
     }
 
@@ -158,7 +157,7 @@ public class Product {
             // Remove duplicates and join
             this.sizes = sizesList.stream()
                     .distinct()
-                    .map(Size::name)
+                    .map(size -> size.name())
                     .collect(Collectors.joining(","));
         }
     }
@@ -203,7 +202,7 @@ public class Product {
 
     public List<Long> getCollectionIds() {
         return collections.stream()
-                .map(Collection::getId)
+                .map(collection -> collection.getId())
                 .collect(Collectors.toList());
     }
 }

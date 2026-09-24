@@ -97,9 +97,11 @@ public class Order {
     }
 
     public Float getTotal() {
-        return orderProducts.stream()
-                .map(op -> op.getPriceAtPurchase() * op.getQuantity())
-                .reduce(0f, Float::sum);
+        float total = 0f;
+        for (OrderProduct op : orderProducts) {
+            total += op.getPriceAtPurchase() * op.getQuantity();
+        }
+        return total;
     }
 
     public OrderStatus getStatus() {

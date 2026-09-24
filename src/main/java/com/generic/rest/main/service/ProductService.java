@@ -68,9 +68,10 @@ public class ProductService {
         }
 
         // Handle collections
-        if (request.getCollectionIds() != null && !request.getCollectionIds().isEmpty()) {
-            List<Collection> collections = collectionRepository.findAllById(request.getCollectionIds());
-            if (collections.size() != request.getCollectionIds().size()) {
+        List<Long> collectionIds = request.getCollectionIds();
+        if (collectionIds != null && !collectionIds.isEmpty()) {
+            List<Collection> collections = collectionRepository.findAllById(collectionIds);
+            if (collections.size() != collectionIds.size()) {
                 throw new RuntimeException("One or more collections not found");
             }
 
@@ -127,7 +128,8 @@ public class ProductService {
         }
 
         // Handle collections update
-        if (request.getCollectionIds() != null) {
+        List<Long> collectionIds = request.getCollectionIds();
+        if (collectionIds != null) {
             // Remove product from all current collections
             List<Collection> currentCollections = new ArrayList<>(product.getCollections());
             for (Collection collection : currentCollections) {
@@ -136,9 +138,9 @@ public class ProductService {
             product.getCollections().clear();
 
             // Add product to new collections
-            if (!request.getCollectionIds().isEmpty()) {
-                List<Collection> newCollections = collectionRepository.findAllById(request.getCollectionIds());
-                if (newCollections.size() != request.getCollectionIds().size()) {
+            if (!collectionIds.isEmpty()) {
+                List<Collection> newCollections = collectionRepository.findAllById(collectionIds);
+                if (newCollections.size() != collectionIds.size()) {
                     throw new RuntimeException("One or more collections not found");
                 }
 
@@ -185,7 +187,7 @@ public class ProductService {
 
     private void validateOnlyOneMainImage(List<ProductImageDTO> images) {
         long mainImageCount = images.stream()
-                .filter(ProductImageDTO::getIsMain)
+                .filter(image -> Boolean.TRUE.equals(image.getIsMain()))
                 .count();
 
         if (mainImageCount != 1) {
