@@ -14,3 +14,4 @@ wrapper/
 Dockerfile
 docker-compose.yml
 src/main/resources/db/local.db
+.env
